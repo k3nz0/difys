@@ -1,3 +1,6 @@
+// initialisation des constant requis pour le fonctionnement du jeux
+// Nous simulons égalemens l'ID de l'app DT sur iOS
+// Initialisation de l'UserAgent étant l'empreinte de l'utilisateurs IG
 const constants = {
 	baseUrl: "https://proxyconnection.touch.dofus.com",
 	haapiUrl: "https://haapi.ankama.com/json/Ankama/v2",
