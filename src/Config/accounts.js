@@ -1,5 +1,7 @@
 import PRIVATE from "../PRIVATE";
-
+// Cete objet est utiliser lors du logging par le ModuleLoader.js
+// Plusieurs variables sont donc instanciés par l'utilisateurs : username, password, server, charact
+// Les deux premiers champs sont requis tandis que les trois autres sont falcultatif
 const accountsList = {
 	[PRIVATE.username]: {
 		username: PRIVATE.username,
