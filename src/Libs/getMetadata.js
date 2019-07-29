@@ -4,7 +4,7 @@ import { constants, general } from "../Config";
 import logger from "./logger";
 
 async function getAppVersion(proxy) {
-	const params = constants.app.params(general.country, general.language);
+	const params = constants.app.params(general.country);
 	const options = {
 		query: params.toString(),
 		agent: proxy ? new HttpsProxyAgent(proxy) : null,
@@ -17,13 +17,14 @@ async function getAppVersion(proxy) {
 		console.error(error);
 	}
 }
-// getAppVersion is working
+
 function getBuildVersion(proxy) {
 	const url = constants.baseUrl + constants.entries.build;
 	const options = {
 		agent: proxy ? new HttpsProxyAgent(proxy) : null
 	};
 	const regex = /.*buildVersion=("|')([0-9]*\.[0-9]*\.[0-9]*)("|')/g;
+
 	return new Promise(async (resolve, reject) => {
 		let request = await got
 			.stream(url, options)

@@ -1,7 +1,8 @@
 const boilerplate = {
 	metadata: {
 		appVersion: String,
-		buildVersion: String
+		buildVersion: String,
+		assetsVersion: String
 	},
 	accounts: {
 		someUsername: {
@@ -56,6 +57,7 @@ const boilerplate = {
 			},
 			gameData: {
 				map: {
+					id: 3249328,
 					coordinates: [2, 1],
 					entities: {
 						"165432": {

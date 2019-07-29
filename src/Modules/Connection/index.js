@@ -2,9 +2,11 @@
 import store from "../Store";
 import got from "got";
 import { constants } from "../../Config";
-import { accounts } from "../Store/reducers/slices";
+import { accounts, metadata } from "../Store/reducers/slices";
 import { logger } from "../../Libs";
 import Socket from "./Socket";
+
+const { setMetadata } = metadata.actions;
 
 export default class Connection {
 	constructor(account) {
@@ -45,6 +47,13 @@ export default class Connection {
 			const response = await got(url, {
 				json: true
 			});
+			let metadata = store.getState().metadata;
+			store.dispatch(
+				setMetadata({
+					...metadata,
+					assetsUrl: response.body.assetsUrl
+				})
+			);
 			this.auth.sessionID = response.body.sessionId;
 			return response.body.haapi.id;
 		} catch (error) {

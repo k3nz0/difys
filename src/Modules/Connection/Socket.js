@@ -17,6 +17,7 @@ export default class Socket extends PrimusSocket {
 		const socketUrl = Socket.getUrl(phase, account, sessionID);
 		const socketOptions = modules.socket.options();
 		super(socketUrl, socketOptions);
+		this.emitter = new EventEmitter();
 		this.phase = phase;
 		this.account = {
 			username,
@@ -39,7 +40,7 @@ export default class Socket extends PrimusSocket {
 		logger.debug(`SOCKET | \u001b[32mSND\u001b[37m | ${message}`);
 	}
 
-	async sendMessage(type, data) {
+	async sendMessage(type, data = null) {
 		// Emitter
 		this.send("sendMessage", { type, data });
 	}
@@ -47,7 +48,6 @@ export default class Socket extends PrimusSocket {
 	load(allListeners) {
 		const state = store.getState();
 		const { appVersion, buildVersion } = state.metadata;
-		const emitter = new EventEmitter();
 		let listeners = allListeners.auth;
 
 		if (this.phase === "SWITCHING TO GAME") {
@@ -60,7 +60,7 @@ export default class Socket extends PrimusSocket {
 			listeners = [].concat(allListeners.game, allListeners.plugins);
 		}
 		for (let listener of listeners) {
-			emitter.on(listener.name, listener);
+			this.emitter.on(listener.name, listener);
 		}
 		this.on("open", () => {
 			this.send("connecting", {
@@ -79,7 +79,7 @@ export default class Socket extends PrimusSocket {
 				logger.debug(
 					`SOCKET | \u001b[33mRCV\u001b[37m | ${data._messageType}`
 				);
-				emitter.emit(data._messageType, payload);
+				this.emitter.emit(data._messageType, payload);
 			})
 			.on("reconnected", () => {
 				logger.debug(`TODO: reconnected`);

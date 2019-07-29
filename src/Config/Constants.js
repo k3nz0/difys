@@ -10,11 +10,11 @@ const constants = {
 	},
 	app: {
 		url: "https://itunes.apple.com/lookup",
-		params: (country, lang) => {
+		params: country => {
 			return new URLSearchParams({
 				country,
 				id: 1041406978,
-				lang,
+				lang: "en",
 				limit: 1
 			});
 		}
